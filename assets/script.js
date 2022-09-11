@@ -51,10 +51,21 @@ const questionsKey = [
 
 // Console.log information
 console.log(questionsKey);
+// Variables for hiding and showing divs
+
+var startPage = document.getElementById("startPage");
+var questionsPage = document.getElementById("Questions");
+
 // Start welcome page. Hides scoring, questions, high scores.
-document.getElementById("AddScore").style.display = "none";
-document.getElementById("Questions").style.display = "none";
-document.getElementById("high-scores").style.display = "none";
+var addScoreEl = document.getElementById("AddScore");
+
+addScoreEl.style.display = "none";
+
+questionsPage.style.display = "none";
+
+var highScores = document.getElementById("high-scores");
+
+highScores.style.display = "none";
 
 // Starts game when Start button is clicked
 var startBtn = document.getElementById("startBtn");
@@ -65,11 +76,6 @@ var answerOp1 = document.getElementById("op1");
 var answerOp2 = document.getElementById("op2");
 var answerOp3 = document.getElementById("op3");
 var answerOp4 = document.getElementById("op4");
-
-// Variables for hiding and showing divs
-
-var startPage = document.getElementById("startPage");
-var questionsPage = document.getElementById("Questions");
 
 var timeLeft = 100;
 
@@ -133,11 +139,11 @@ ansBtn.forEach((choice) => {
 // TODO: fix validation for when answer is correct
 
 function checkAnswer(answer) {
-  // event.preventDefault();
+  // answer.preventDefault();
 
   // If correct, displays Correct message
   if (
-    questionsKey[questionIndex].correctAnswer ==
+    questionsKey[questionIndex].correctAnswer ===
     questionsKey[questionIndex].answers[answer]
   ) {
     answerFeedback.textContent = "Correct!";
@@ -164,7 +170,7 @@ function checkAnswer(answer) {
 }
 
 // list of list of  high scores when "View High Scores"
-const list = document.querySelector("#scores-list");
+const list = document.querySelector("#score-list");
 
 var addScore = document.forms["add-score"];
 
@@ -207,39 +213,36 @@ addScore.addEventListener("submit", function (e) {
 
 // Ends the game and displays final score
 function endGame() {
-  document.getElementById("AddScore").style.display = "block";
-  document.getElementById("Questions").style.display = "none";
+  addScoreEl.style.display = "block";
+  questionsPage.style.display = "none";
 
   document.getElementById("final-score").textContent =
     "Your final score is " + timeLeft;
 }
 
-var highScores = document.getElementById("high-scores");
-
 highScores.addEventListener("click", viewHighScores);
 
 // View High Scores
 function viewHighScores() {
-  document.getElementById("startPage").style.display = "none";
+  startPage.style.display = "none";
 
-  document.getElementById("Questions").style.display = "none";
+  questionsPage.style.display = "none";
 
-  document.getElementById("AddScore").style.display = "none";
+  addScoreEl.style.display = "none";
 
   highScores.style.display = "block";
 }
 
-var goBack = document.getElementById("goBack");
+var goBackBtn = document.getElementById("goBack");
 
-goBack.addEventListener("click", goBack1);
-
-// TODO: how do i make it go back to the start page?
-function goBack1() {
-  document.getElementById("high-scores").style.display = "none";
-
-  // document.getElementById("startPage").style.display = "block";
-
-  // startGame();
-}
+// When go back button is pressed, it goes back to start page
+goBackBtn.addEventListener("click", function () {
+  // alert("is this working");
+  startPage.style.display = "block";
+  highScores.style.display = "none";
+  addScoreEl.style.display = "block";
+  questionsPage.style.display = "block";
+  location.reload();
+});
 
 // getlocal storage to dispaly scores, sort ().
