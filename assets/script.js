@@ -15,12 +15,12 @@ const questionsKey = [
       "3. HyperText Markup Language",
       "4. Help Text Markup Language",
     ],
-    correctAnswer: "HyperText Markup Language",
+    correctAnswer: "3. HyperText Markup Language",
   },
   {
     question: "What data type returns a true or false value?",
     answers: ["1. Boolean", "2. String", "3. Number", "4. None of the above"],
-    correctAnswer: "Boolean",
+    correctAnswer: "1. Boolean",
   },
   {
     question: "How can you print to the console?",
@@ -30,12 +30,12 @@ const questionsKey = [
       "3. print.console",
       "4. console.print",
     ],
-    correctAnswer: "console.log",
+    correctAnswer: "2. console.log",
   },
   {
     question: "Which of the following is not a way to declare a variable?",
-    answers: ["1. let", "2. var", "3. const", "4, make"],
-    correctAnswer: "4",
+    answers: ["1. let", "2. var", "3. const", "4. make"],
+    correctAnswer: "4. make",
   },
   {
     question: "Strings must be enclosed by what when assigning variables?",
@@ -45,12 +45,15 @@ const questionsKey = [
       "3. question marks",
       "4. back slashes",
     ],
-    correctAnswer: "quotes",
+    correctAnswer: "2. quotes",
   },
 ];
 
 // Console.log information
 console.log(questionsKey);
+console.log(questionsKey.answers);
+console.log(questionsKey.correctAnswer);
+
 // Variables for hiding and showing divs
 
 var startPage = document.getElementById("startPage");
@@ -80,8 +83,8 @@ var answerOp4 = document.getElementById("op4");
 var timeLeft = 100;
 
 function startGame() {
-  // Randomizes questions
-  shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
+  // // Randomizes questions
+  // shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
 
   // Hides start page when game starts
   startPage.style.display = "none";
@@ -138,21 +141,19 @@ ansBtn.forEach((choice) => {
 // Checks whether answer is correct or incorrect
 // TODO: fix validation for when answer is correct
 
-function checkAnswer(answer) {
-  // answer.preventDefault();
+function checkAnswer(event) {
+  event.preventDefault();
 
   // If correct, displays Correct message
-  if (
-    questionsKey[questionIndex].correctAnswer ===
-    questionsKey[questionIndex].answers[answer]
-  ) {
+  if (questionsKey[questionIndex].correctAnswer == event.target.textContent) {
     answerFeedback.textContent = "Correct!";
   } else {
     // if wrong, deduct 10 seconds from timer. Displays wrong message
     timeLeft -= 10;
     answerFeedback.textContent = "Wrong!";
   }
-
+  console.log(questionsKey[questionIndex].correctAnswer);
+  console.log(event.target.textContent);
   // console.log(answer);
   // if all questions are asked, end game and show final score
   // TODO: why doesnt it display the 5th question?
@@ -170,11 +171,12 @@ function checkAnswer(answer) {
 }
 
 // list of list of  high scores when "View High Scores"
-const list = document.querySelector("#score-list");
+const scoreListEl = document.querySelector("#score-list");
 
-var addScore = document.forms["add-score"];
+const addScore = document.forms["add-score"];
 
 //when submit button to initials is clicked, run event function to log score into webpage local storage
+scoreList = [];
 
 addScore.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -197,6 +199,8 @@ addScore.addEventListener("submit", function (e) {
   localStorage.setItem("initials", initials);
   localStorage.setItem("score", JSON.stringify(timeLeft));
 
+  scoreList.push({ initials, score });
+
   // // add classes
   // username.classList.add("name");
   // score.classList.add("score");
@@ -204,12 +208,18 @@ addScore.addEventListener("submit", function (e) {
   // append to document
   li.appendChild(username);
   li.appendChild(score);
-  list.appendChild(li);
+  scoreListEl.appendChild(li);
+
+  storeScores();
 
   viewHighScores();
 });
 
 // TODO: Add initials as LI items, append to High score page. sort from high to low
+
+function storeScores() {
+  localStorage.setItem("scoreList", JSON.stringify(scoreList));
+}
 
 // Ends the game and displays final score
 function endGame() {
@@ -231,18 +241,32 @@ function viewHighScores() {
   addScoreEl.style.display = "none";
 
   highScores.style.display = "block";
+
+  var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+
+  scoreListEl.append(storedScoreList);
 }
 
 var goBackBtn = document.getElementById("goBack");
 
-// When go back button is pressed, it goes back to start page
-goBackBtn.addEventListener("click", function () {
-  // alert("is this working");
-  startPage.style.display = "block";
-  highScores.style.display = "none";
-  addScoreEl.style.display = "block";
-  questionsPage.style.display = "block";
+// When go back button is pressed, it goes back to start page. doesnt necessarily need the
+goBackBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  // startPage.style.display = "block";
+  // highScores.style.display = "none";
+  // addScoreEl.style.display = "none";
+  // questionsPage.style.display = "block";
   location.reload();
+});
+
+var clearScoresBtn = document.getElementById("clearScores");
+
+clearScoresBtn.addEventListener("click", function () {
+  // alert("is this working");
+  localStorage.clear();
+  scoreListEl.innerHTML = "";
+
+  console.log("Scores have been cleared");
 });
 
 // getlocal storage to dispaly scores, sort ().
