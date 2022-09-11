@@ -83,8 +83,8 @@ var answerOp4 = document.getElementById("op4");
 var timeLeft = 100;
 
 function startGame() {
-  // // Randomizes questions
-  // shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
+  // Randomizes questions
+  shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
 
   // Hides start page when game starts
   startPage.style.display = "none";
@@ -99,7 +99,7 @@ function startGame() {
 
     // if no time is left, or if all questions have been answered, stop timer and end the game\
     // TODO: if timeleft is less than 0, log the score of 0 not - score
-    if (timeLeft <= 0 || questionsKey.length === questionIndex + 1) {
+    if (timeLeft <= 0) {
       endGame();
       clearInterval(timeInterval);
       timerEl.textContent = "Time: " + timeLeft;
@@ -152,22 +152,21 @@ function checkAnswer(event) {
     timeLeft -= 10;
     answerFeedback.textContent = "Wrong!";
   }
+
   console.log(questionsKey[questionIndex].correctAnswer);
   console.log(event.target.textContent);
   // console.log(answer);
-  // if all questions are asked, end game and show final score
-  // TODO: why doesnt it display the 5th question?
-  // if (questionIndex + 1 >= questionsKey.length) {
-  //   endGame();
-  //   // return;
-  // }
+
+  // Checks if all questions are already asked. If so, game ends If not, continue displaying the next question
+  if (questionIndex + 1 === questionsKey.length) {
+    endGame();
+  } else {
+    questionIndex++;
+    showQuestion();
+  }
 
   console.log(" Q Index:" + (questionIndex + 1));
   console.log("Key length:" + questionsKey.length);
-
-  // Goes to the next question
-  questionIndex++;
-  showQuestion();
 }
 
 // list of list of  high scores when "View High Scores"
@@ -242,9 +241,9 @@ function viewHighScores() {
 
   highScores.style.display = "block";
 
-  var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+  // var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
 
-  scoreListEl.append(storedScoreList);
+  // scoreListEl.append(storedScoreList);
 }
 
 var goBackBtn = document.getElementById("goBack");
