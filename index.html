@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <title>Code Quiz Challenge</title>
+  </head>
+
+  <body>
+    <header id="gameInfo">
+      <ul id="header">
+        <li id="viewHighScores"><a href="#high-scores">View High Scores</li></a>
+        <li id="timer">Time: 0</li>
+      </ul>
+    </header>
+
+    <div id="codeContainer">
+    <div id="startPage">
+      <h1>Code Quiz Challenge</h1>
+      <p>Test your knowledge with a timed quiz!</p>
+      <button id="startBtn">Start Quiz</button>
+</div>
+
+<!-- Questions -->
+    <div id="Questions">
+        <h2 id="questionDisplay">Questions</h2>
+
+        <div id="answers">
+            <ul>
+
+               <li><button id="op1" class="answer-options">OPTION 1</button></li>
+
+              
+
+               <li><button id="op2" class="answer-options">OPTION 2</button>
+               </li>
+            
+
+                <li> <button id="op3" class="answer-options">OPTION 3</button class="answerOption"></li>
+
+
+                  <li> <button id="op4" class="answer-options">OPTION 4</button> </li>
+              
+           </ul> 
+        </div>
+        <div id ="answerFeedback"></div>
+    </div>
+
+<!-- adds your score at end of quiz -->
+<div id="AddScore"> 
+    <h2>All done!</h2>
+    <p id="final-score"></p>
+    <p>Add your score here by entering your initials</p>
+      <form id="add-score">
+   
+        <input id="initials" type="text" placeholder="initials"></input>
+        <button id="add-initials">Submit</button>
+
+      </form>
+</div>
+    
+<!-- displays high scores-->
+    <div id="high-scores">
+      <h2>High Scores</h2>
+<ol id="scores-list">
+<li>
+    <span class ="name">Name</span>
+    <span class="score">Score</span>
+</li>
+</ol>
+<button id="goBack"><a href="#startPage">Go back</button></a>
+<button>Clear Highscores</button>
+    </div>
+
+</div>
+
+    <script src="./assets/script.js"></script>
+  </body>
+</html>

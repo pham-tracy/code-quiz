@@ -1,0 +1,100 @@
+#header {
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: ;
+    margin: 20px;
+    list-style: none;
+}
+
+#codeContainer {
+    text-align: center;
+}
+
+h1 {
+    color:pink;
+    font-size:40px;
+}
+
+p {
+    font-size:20px
+}
+
+header li {
+    list-style: none;
+}
+
+#startBtn {
+    background-color: purple;
+    color:white;
+    border-radius: 15px;
+    height: 60px;
+    width:100px;
+}
+
+
+
+.answer-options {
+    background-color: purple;
+    color:white;
+    border-radius: 15px;
+    height: 60px;
+    width:200px;
+    margin: 20px;
+}
+
+
+/* form styles */
+
+   
+
+/*  Style to input box */
+#initials {
+    height: 50px;
+    width: 300px;
+    border-radius: 15px;
+    border-color:none;
+} 
+
+/* Style submit button */
+#add-initials {
+    background-color: purple;
+    color:white;
+    height: 50px;
+    width:150px;
+    padding:0px;
+    border-radius:15px;
+
+}
+
+li {
+    list-style-type: none;
+}
+/* displays none the sections. need to change CSS style to display:bock in JS */
+/* #startPage{
+    display:none;
+}
+ #Questions {
+    display:block;
+} 
+
+
+ #AddScore {
+    display:none;
+}  */
+
+
+/* .answer-choices {
+    padding: 50px;
+    margin: 10px;
+    background-color: purple;
+} */
+
+
+/*
+#codeContainer {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: 
+    wrap;
+} */
