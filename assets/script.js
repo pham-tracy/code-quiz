@@ -4,7 +4,6 @@ var answersEl = document.getElementById("answers");
 
 var questionIndex = 0;
 var shuffledQuestions;
-console.log(shuffledQuestions);
 
 // create variables for questions
 const questionsKey = [
@@ -52,15 +51,6 @@ const questionsKey = [
 
 // Console.log information
 console.log(questionsKey);
-console.log(questionsKey.question);
-console.log(questionsKey[questionIndex].question);
-console.log(questionsKey[questionIndex].answers);
-console.log(questionsKey[questionIndex].correctAnswer);
-
-console.log(JSON.stringify(questionsKey[questionIndex].questions));
-
-console.log(timerEl);
-
 // Start welcome page. Hides scoring, questions, high scores.
 document.getElementById("AddScore").style.display = "none";
 document.getElementById("Questions").style.display = "none";
@@ -81,10 +71,9 @@ var answerOp4 = document.getElementById("op4");
 var startPage = document.getElementById("startPage");
 var questionsPage = document.getElementById("Questions");
 
-function startGame() {
-  // Begins countdown timer at game start
-  countdown();
+var timeLeft = 100;
 
+function startGame() {
   // Randomizes questions
   shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
 
@@ -94,43 +83,63 @@ function startGame() {
   // Displays questions page
   questionsPage.style.display = "block";
 
+  // Creates timer
+  var timeInterval = setInterval(function () {
+    timeLeft--;
+    timerEl.textContent = "Time: " + timeLeft;
+
+    // if no time is left, or if all questions have been answered, stop timer and end the game\
+    // TODO: if timeleft is less than 0, log the score of 0 not - score
+    if (timeLeft <= 0 || questionsKey.length === questionIndex + 1) {
+      endGame();
+      clearInterval(timeInterval);
+      timerEl.textContent = "Time: " + timeLeft;
+    }
+  }, 1000);
   // Goes to show question function
   showQuestion();
 }
 
 function showQuestion() {
+  // Current question is grabbed from the array
   var currentQuestion = questionsKey[questionIndex].question;
 
-  // CHANGED TO INNERHTML, might have toc change back to textContent
+  // CHANGED back to textContent
   // Makes the question display as the heading title
-  askQuestion.innerHTML = currentQuestion;
+  askQuestion.textContent = currentQuestion;
 
   console.log(currentQuestion);
 
   // make text answers show up as options
-  answerOp1.innerHTML = questionsKey[questionIndex].answers[0];
-  answerOp2.innerHTML = questionsKey[questionIndex].answers[1];
-  answerOp3.innerHTML = questionsKey[questionIndex].answers[2];
-  answerOp4.innerHTML = questionsKey[questionIndex].answers[3];
+  answerOp1.textContent = questionsKey[questionIndex].answers[0];
+  answerOp2.textContent = questionsKey[questionIndex].answers[1];
+  answerOp3.textContent = questionsKey[questionIndex].answers[2];
+  answerOp4.textContent = questionsKey[questionIndex].answers[3];
 }
-
-// var answerBtns = document.getElementsByClassName("answer-options");
-// answerBtns.addEventListener("click", checkAnswer);
 
 var answerFeedback = document.getElementById("answerFeedback");
 
 // add event listener to checkAnswer when button is clicked
 // TODO: change it to when the individual button answer is clicked
-answersEl.addEventListener("click", checkAnswer);
 
-// Checks answers
+var ansBtn = document.querySelectorAll(".answer-options");
+// answersEl.addEventListener("click", checkAnswer);
+
+ansBtn.forEach((choice) => {
+  choice.addEventListener("click", checkAnswer);
+});
+
+// Checks whether answer is correct or incorrect
+// TODO: fix validation for when answer is correct
 
 function checkAnswer(answer) {
-  answer.preventDefault();
-  // Checks whether answer is correct or incorrect
+  // event.preventDefault();
 
   // If correct, displays Correct message
-  if (questionsKey[questionIndex].correctAnswer == answer) {
+  if (
+    questionsKey[questionIndex].correctAnswer ==
+    questionsKey[questionIndex].answers[answer]
+  ) {
     answerFeedback.textContent = "Correct!";
   } else {
     // if wrong, deduct 10 seconds from timer. Displays wrong message
@@ -138,49 +147,26 @@ function checkAnswer(answer) {
     answerFeedback.textContent = "Wrong!";
   }
 
+  // console.log(answer);
   // if all questions are asked, end game and show final score
   // TODO: why doesnt it display the 5th question?
-  if (questionsKey.length === questionIndex + 1) {
-    endGame();
-    return;
-  }
-  console.log(questionsKey.length);
-  console.log(questionIndex + 1);
+  // if (questionIndex + 1 >= questionsKey.length) {
+  //   endGame();
+  //   // return;
+  // }
 
+  console.log(" Q Index:" + (questionIndex + 1));
+  console.log("Key length:" + questionsKey.length);
+
+  // Goes to the next question
   questionIndex++;
   showQuestion();
 }
 
-var timeLeft = 100;
-// timer function on how much time is left. If it gets to 0, then sorry message appears.
-function countdown() {
-  // Sets how much time you start with
-
-  // executes method every 1000 milliseconds
-  var timeInterval = setInterval(function () {
-    timeLeft--;
-    timerEl.textContent = "Time: " + timeLeft;
-
-    // if no time is left, or if all questions have been answered, stop timer and end the game\
-    // TODO: if timeleft is less than 0, log the score of 0 not - score
-    if (timeLeft === 0 || questionsKey.length === questionIndex + 1) {
-      // clearInteval to clear the timer
-
-      endGame();
-      clearInterval(timeInterval);
-      timerEl.textContent = "Time: " + timeLeft;
-    }
-  }, 1000);
-}
-
-// TODO: when on last question, hide question div and show the final score div
-
 // list of list of  high scores when "View High Scores"
-const list = document.querySelector("#high-scores");
+const list = document.querySelector("#scores-list");
 
 var addScore = document.forms["add-score"];
-
-console.log(addScore);
 
 //when submit button to initials is clicked, run event function to log score into webpage local storage
 
@@ -193,6 +179,7 @@ addScore.addEventListener("submit", function (e) {
   //displays initials in console.log
   console.log(initials);
   console.log(timeLeft);
+
   // create elements
   const li = document.createElement("li");
   const username = document.createElement("span");
@@ -204,14 +191,16 @@ addScore.addEventListener("submit", function (e) {
   localStorage.setItem("initials", initials);
   localStorage.setItem("score", JSON.stringify(timeLeft));
 
-  // add classes
-  username.classList.add("name");
-  score.classList.add("score");
+  // // add classes
+  // username.classList.add("name");
+  // score.classList.add("score");
 
   // append to document
   li.appendChild(username);
   li.appendChild(score);
   list.appendChild(li);
+
+  viewHighScores();
 });
 
 // TODO: Add initials as LI items, append to High score page. sort from high to low
@@ -225,7 +214,7 @@ function endGame() {
     "Your final score is " + timeLeft;
 }
 
-var highScores = document.getElementById("viewHighScores");
+var highScores = document.getElementById("high-scores");
 
 highScores.addEventListener("click", viewHighScores);
 
@@ -236,9 +225,11 @@ function viewHighScores() {
   document.getElementById("Questions").style.display = "none";
 
   document.getElementById("AddScore").style.display = "none";
+
+  highScores.style.display = "block";
 }
 
-goBack = document.getElementById("goBack");
+var goBack = document.getElementById("goBack");
 
 goBack.addEventListener("click", goBack1);
 
