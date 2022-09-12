@@ -5,7 +5,7 @@ var answersEl = document.getElementById("answers");
 var questionIndex = 0;
 var shuffledQuestions;
 
-// create variables for questions
+// Questions key with answer choices and correct answer
 const questionsKey = [
   {
     question: "What does HTML stand for?",
@@ -54,23 +54,20 @@ console.log(questionsKey);
 console.log(questionsKey.answers);
 console.log(questionsKey.correctAnswer);
 
+// Variables for the different divs
 var startPage = document.getElementById("startPage");
 var questionsPage = document.getElementById("Questions");
-
-// Start welcome page. Hides scoring, questions, high scores.
+var highScores = document.getElementById("high-scores");
 var addScoreEl = document.getElementById("AddScore");
 
-addScoreEl.style.display = "none";
-
+// Start page with welcome information. Quiz elements are hidden
 questionsPage.style.display = "none";
-
-var highScores = document.getElementById("high-scores");
-
+addScoreEl.style.display = "none";
 highScores.style.display = "none";
 
-// Starts game when Start button is clicked
+// Starts the quiz when Start button is clicked
 var startBtn = document.getElementById("startBtn");
-startBtn.addEventListener("click", startGame);
+startBtn.addEventListener("click", startQuiz);
 
 // Buttons for answer choices
 var answerOp1 = document.getElementById("op1");
@@ -81,7 +78,7 @@ var answerOp4 = document.getElementById("op4");
 // Time remaining at start of the game
 var timeLeft = 75;
 
-function startGame() {
+function startQuiz() {
   // Randomizes questions
   shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
 
@@ -100,7 +97,7 @@ function startGame() {
     if (timeLeft <= 0 || questionIndex === questionsKey.length) {
       // if time left is less than 0, it will log the score as 0
       clearInterval(timeInterval);
-      endGame();
+      endQuiz();
       timerEl.textContent = "Time: " + timeLeft;
     }
   }, 1000);
@@ -120,7 +117,7 @@ function showQuestion() {
 var answerFeedback = document.getElementById("answerFeedback");
 var ansBtn = document.querySelectorAll(".answer-options");
 
-// For each answer button pressed, it checks if it is the correct
+// For each answer button clicked, it checks if it is correct
 ansBtn.forEach((answer) => {
   answer.addEventListener("click", checkAnswer);
 });
@@ -129,7 +126,7 @@ ansBtn.forEach((answer) => {
 function checkAnswer(event) {
   event.preventDefault();
 
-  // If correct, displays Correct message
+  // If correct, displays correct message
   if (questionsKey[questionIndex].correctAnswer == event.target.textContent) {
     answerFeedback.textContent = "Correct!";
   } else {
@@ -141,62 +138,76 @@ function checkAnswer(event) {
   console.log(questionsKey[questionIndex].correctAnswer);
   console.log(event.target.textContent);
 
+  // Goes to the next question
   questionIndex++;
   showQuestion();
-  // }
+
   console.log("Q Index:" + (questionIndex + 1));
   console.log("Key length:" + questionsKey.length);
 }
 
 // list of list of  high scores when "View High Scores"
-const scoreListEl = document.querySelector("#score-list");
 
+// Ordered List of scores
+var scoreListEl = document.querySelector("#score-list");
 const addScore = document.forms["add-score"];
 
 //when submit button to initials is clicked, run event function to log score into webpage local storage
 scoreList = [];
 
-addScore.addEventListener("submit", function (e) {
-  e.preventDefault();
+addScore.addEventListener("submit", submitScore);
+
+function submitScore(event) {
+  event.preventDefault();
+
+  addScoreEl.style.display = "none";
+  highScores.style.display = "block";
 
   // create variable to store user inputted initials
-  var initials = addScore.querySelector('input[type="text"]').value;
+  var initials = addScore.querySelector("#initials").value;
 
-  //displays initials in console.log
-  console.log(initials);
-  console.log(timeLeft);
+  scoreList.push({ initials: initials, score: timeLeft });
 
-  // create elements
-  const li = document.createElement("li");
-  const username = document.createElement("span");
-  const score = document.createElement("span");
+  // sort scores
+  scoreList = scoreList.sort((a, b) => {
+    if (a.score < b.score) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
 
-  username.textContent = initials;
-  score.textContent = " " + timeLeft;
+  scoreListEl.textContent = "";
 
-  localStorage.setItem("initials", initials);
-  localStorage.setItem("score", JSON.stringify(timeLeft));
+  for (var i = 0; i < scoreList.length; i++) {
+    const li = document.createElement("li");
+    li.textContent = `${scoreList[i].initials}: ${scoreList[i].score}`;
+    scoreListEl.append(li);
+  }
 
-  scoreList.push({ initials, score });
-
-  // append to document
-  li.appendChild(username);
-  li.appendChild(score);
-  scoreListEl.appendChild(li);
-
+  // add to local storage
   storeScores();
+  showScores();
+}
 
-  viewHighScores();
-});
-
-// TODO: Add initials as LI items, append to High score page. sort from high to low
-
+// Stores scores to local storage as a string
 function storeScores() {
   localStorage.setItem("scoreList", JSON.stringify(scoreList));
 }
 
+function showScores() {
+  // Get stored scores from localStorage
+
+  var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+
+  // if scores retrieved, update the Score list array to reflect it
+  if (storedScoreList !== null) {
+    scoreList = storedScoreList;
+  }
+}
+
 // Ends the game and displays final score
-function endGame() {
+function endQuiz() {
   addScoreEl.style.display = "block";
   highScores.style.display = "none";
   questionsPage.style.display = "none";
@@ -216,32 +227,25 @@ function viewHighScores() {
   addScoreEl.style.display = "none";
 
   highScores.style.display = "block";
-
-  // var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
-
-  // scoreListEl.append(storedScoreList);
 }
 
 var goBackBtn = document.getElementById("goBack");
 
-// When go back button is pressed, it goes back to start page. doesnt necessarily need the
+// When go back button is pressed, it goes back to the start page.
 goBackBtn.addEventListener("click", function (event) {
   event.preventDefault();
-  // startPage.style.display = "block";
-  // highScores.style.display = "none";
-  // addScoreEl.style.display = "none";
-  // questionsPage.style.display = "block";
+  startPage.style.display = "block";
+  highScores.style.display = "none";
+  questionsPage.style.display = "none";
+  addScoreEl.style.display = "none";
   location.reload();
 });
 
 var clearScoresBtn = document.getElementById("clearScores");
 
+// Clears high scores when Clear High Scores button is pressed
 clearScoresBtn.addEventListener("click", function () {
   // alert("is this working");
   localStorage.clear();
-  scoreListEl.innerHTML = "";
-
-  console.log("Scores have been cleared");
+  scoreListEl.textContent = "";
 });
-
-// getlocal storage to dispaly scores, sort ().
