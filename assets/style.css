@@ -34,14 +34,17 @@ header li {
     list-style: none;
 }
 
-#startBtn {
+
+#clearScores,
+#goBack,
+#startBtn,
+#highscores_btn 
+{
     background-color: purple;
-    color:white;
+    color: white;
     border-radius: 15px;
     height: 60px;
-    width:100px;
 }
-
 
 .answer-options {
     background-color: purple;
@@ -79,18 +82,6 @@ header li {
 li {
     list-style-type: none;
 }
-/* displays none the sections. need to change CSS style to display:bock in JS */
-/* #startPage{
-    display:none;
-}
- #Questions {
-    display:block;
-} 
-
-
- #AddScore {
-    display:none;
-}  */
 
 
 /* .answer-choices {

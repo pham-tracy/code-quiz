@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +10,18 @@
   </head>
 
   <body>
+
+    <!-- Header that displays View Scores button and a timer -->
     <header id="gameInfo">
       <ul id="header">
-        <a href="#high-scores"><li id="viewHighScores">View High Scores</li></a>
-        <li id="timer">Time: 0</li>
+        <div href="#high-scores">
+          <button id="highscores_btn">View High Scores</button>
+        </div>
+        <li id="timer">Time: 0</li> 
       </ul>
     </header>
 
+<!-- Div to contain all the code pages -->
     <div id="codeContainer">
     <div id="startPage">
       <h1>Code Quiz Challenge</h1>
@@ -60,16 +66,15 @@
 <!-- displays high scores-->
     <div id="high-scores">
       <h2>High Scores</h2>
-<ol id="score-list">
-<li>
-    <span class ="name">Name</span>
-    <span class="score">Score</span>
-</li>
-</ol>
+      <div id="scorerecord">
+
+      </div>
+      <br>
+      <br>
 
 
 <button type="button" id="goBack">Go back</button>
-<button type="button" id="clearScores">Clear Highscores</button>
+<button type="button" id="clearScores">Clear high scores</button>
     </div>
 
 </div>

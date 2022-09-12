@@ -5,9 +5,6 @@ var answersEl = document.getElementById("answers");
 var questionIndex = 0;
 var shuffledQuestions;
 
-//when submit button to initials is clicked, run event function to log score into webpage local storage
-var scoreList = [];
-
 // Questions key with answer choices and correct answer
 const questionsKey = [
   {
@@ -91,7 +88,7 @@ function startQuiz() {
   // Displays questions page
   questionsPage.style.display = "block";
 
-  //Creates timer
+  // Creates timer
   var timeInterval = setInterval(function () {
     timeLeft--;
     timerEl.textContent = "Time: " + timeLeft;
@@ -155,57 +152,6 @@ function checkAnswer(event) {
 var scoreListEl = document.querySelector("#score-list");
 const addScore = document.forms["add-score"];
 
-addScore.addEventListener("submit", submitScore);
-
-function submitScore(event) {
-  event.preventDefault();
-
-  addScoreEl.style.display = "none";
-  highScores.style.display = "block";
-
-  // create variable to store user inputted initials
-  var initials = addScore.querySelector("#initials").value;
-  scoreList.push({ initials: initials, score: timeLeft });
-
-  // sort scores
-  scoreList = scoreList.sort((a, b) => {
-    if (a.score < b.score) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
-
-  scoreListEl.textContent = "";
-
-  for (var i = 0; i < scoreList.length; i++) {
-    var li = document.createElement("li");
-    li.textContent = `${scoreList[i].initials}: ${scoreList[i].score}`;
-    scoreListEl.append(li);
-  }
-
-  // add to local storage
-  storeScores();
-  showScores();
-}
-
-// Stores scores to local storage as a string
-function storeScores() {
-  localStorage.setItem("scoreList", JSON.stringify(scoreList));
-}
-
-function showScores() {
-  // Get stored scores from localStorage
-
-  var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
-
-  // if scores retrieved, update the Score list array to reflect it
-  if (storedScoreList !== null) {
-    scoreList = storedScoreList;
-  }
-  console.log(storedScoreList);
-}
-
 // Ends the game and displays final score
 function endQuiz() {
   addScoreEl.style.display = "block";
@@ -227,6 +173,7 @@ function viewHighScores() {
   addScoreEl.style.display = "none";
 
   highScores.style.display = "block";
+  addScores();
 }
 
 var goBackBtn = document.getElementById("goBack");
@@ -247,5 +194,79 @@ var clearScoresBtn = document.getElementById("clearScores");
 clearScoresBtn.addEventListener("click", function () {
   // alert("is this working");
   localStorage.clear();
-  scoreListEl.textContent = "";
 });
+
+var highscoresPageBtn = document.querySelector("#highscores_btn");
+highscoresPageBtn.addEventListener("click", viewHighScores);
+
+var Scores = document.querySelector("#scorerecord");
+var userInitials = document.querySelector("#initials");
+var addInitials = document.querySelector("#add-initials");
+
+// Saves score information and displays the high scores page
+addInitials.addEventListener("click", function (event) {
+  event.preventDefault();
+  addScoreEl.style.display = "none";
+  startPage.style.display = "none";
+  highScores.style.display = "block";
+  questionsPage.style.display = "none";
+  saveScore();
+});
+
+// get current score and initials from local storage
+function getScore() {
+  var currentList = localStorage.getItem("ScoreList");
+  if (currentList !== null) {
+    freshList = JSON.parse(currentList);
+    return freshList;
+  } else {
+    freshList = [];
+  }
+  return freshList;
+}
+
+// add scores to the score board
+function addScores() {
+  Scores.innerHTML = "";
+  Scores.style.display = "block";
+  var highScores = sort();
+  //show the top five high scores.
+  var topFive = highScores.slice(0, 5);
+  for (var i = 0; i < topFive.length; i++) {
+    var item = topFive[i];
+    // Show the score list on score board
+    var li = document.createElement("li");
+    li.textContent = item.user + " - " + item.score;
+    li.setAttribute("data-index", i);
+    Scores.appendChild(li);
+  }
+}
+
+// sort score and ranking the highscore list
+function sort() {
+  var unsortedList = getScore();
+  if (getScore == null) {
+    return;
+  } else {
+    unsortedList.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    return unsortedList;
+  }
+}
+
+// push new score and initial to local storage
+function addItem(n) {
+  var addedList = getScore();
+  addedList.push(n);
+  localStorage.setItem("ScoreList", JSON.stringify(addedList));
+}
+
+function saveScore() {
+  var scoreItem = {
+    user: userInitials.value,
+    score: timeLeft,
+  };
+  addItem(scoreItem);
+  addScores();
+}
