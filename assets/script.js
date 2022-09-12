@@ -54,8 +54,6 @@ console.log(questionsKey);
 console.log(questionsKey.answers);
 console.log(questionsKey.correctAnswer);
 
-// Variables for hiding and showing divs
-
 var startPage = document.getElementById("startPage");
 var questionsPage = document.getElementById("Questions");
 
@@ -80,7 +78,7 @@ var answerOp2 = document.getElementById("op2");
 var answerOp3 = document.getElementById("op3");
 var answerOp4 = document.getElementById("op4");
 
-// Beginning time left
+// Time remaining at start of the game
 var timeLeft = 75;
 
 function startGame() {
@@ -98,12 +96,11 @@ function startGame() {
     timeLeft--;
     timerEl.textContent = "Time: " + timeLeft;
 
-    // Stops the game if time left is less than or equal to 0.
-    if (timeLeft <= 0) {
-      // if time left is less than 0, it will log the score as 0.xs
-      timeLeft = 0;
-      endGame();
+    // Stops the game if time left is less than or equal to 0, or if all questions have been answered
+    if (timeLeft <= 0 || questionIndex === questionsKey.length) {
+      // if time left is less than 0, it will log the score as 0
       clearInterval(timeInterval);
+      endGame();
       timerEl.textContent = "Time: " + timeLeft;
     }
   }, 1000);
@@ -121,7 +118,6 @@ function showQuestion() {
 }
 
 var answerFeedback = document.getElementById("answerFeedback");
-
 var ansBtn = document.querySelectorAll(".answer-options");
 
 // For each answer button pressed, it checks if it is the correct
@@ -145,18 +141,10 @@ function checkAnswer(event) {
   console.log(questionsKey[questionIndex].correctAnswer);
   console.log(event.target.textContent);
 
-  // Checks if all questions are already asked. If so, game ends If not, continue displaying the next question
-
-  //TODO: how do i stop timer when all questions are asked
-
-  if (questionIndex + 1 === questionsKey.length) {
-    endGame();
-  } else {
-    questionIndex++;
-    showQuestion();
-  }
-
-  console.log(" Q Index:" + (questionIndex + 1));
+  questionIndex++;
+  showQuestion();
+  // }
+  console.log("Q Index:" + (questionIndex + 1));
   console.log("Key length:" + questionsKey.length);
 }
 
@@ -191,10 +179,6 @@ addScore.addEventListener("submit", function (e) {
 
   scoreList.push({ initials, score });
 
-  // // add classes
-  // username.classList.add("name");
-  // score.classList.add("score");
-
   // append to document
   li.appendChild(username);
   li.appendChild(score);
@@ -214,6 +198,7 @@ function storeScores() {
 // Ends the game and displays final score
 function endGame() {
   addScoreEl.style.display = "block";
+  highScores.style.display = "none";
   questionsPage.style.display = "none";
 
   document.getElementById("final-score").textContent =
