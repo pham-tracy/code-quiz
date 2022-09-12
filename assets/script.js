@@ -80,7 +80,8 @@ var answerOp2 = document.getElementById("op2");
 var answerOp3 = document.getElementById("op3");
 var answerOp4 = document.getElementById("op4");
 
-var timeLeft = 100;
+// Beginning time left
+var timeLeft = 75;
 
 function startGame() {
   // Randomizes questions
@@ -92,34 +93,27 @@ function startGame() {
   // Displays questions page
   questionsPage.style.display = "block";
 
-  // Creates timer
+  //Creates timer
   var timeInterval = setInterval(function () {
     timeLeft--;
     timerEl.textContent = "Time: " + timeLeft;
 
-    // if no time is left, or if all questions have been answered, stop timer and end the game\
-    // TODO: if timeleft is less than 0, log the score of 0 not - score
+    // Stops the game if time left is less than or equal to 0.
     if (timeLeft <= 0) {
+      // if time left is less than 0, it will log the score as 0.xs
+      timeLeft = 0;
       endGame();
       clearInterval(timeInterval);
       timerEl.textContent = "Time: " + timeLeft;
     }
   }, 1000);
-  // Goes to show question function
+  // If time left is greater than 0, it displays the next question
   showQuestion();
 }
 
 function showQuestion() {
-  // Current question is grabbed from the array
-  var currentQuestion = questionsKey[questionIndex].question;
-
-  // CHANGED back to textContent
-  // Makes the question display as the heading title
-  askQuestion.textContent = currentQuestion;
-
-  console.log(currentQuestion);
-
-  // make text answers show up as options
+  // Displays question and answer choices
+  askQuestion.textContent = questionsKey[questionIndex].question;
   answerOp1.textContent = questionsKey[questionIndex].answers[0];
   answerOp2.textContent = questionsKey[questionIndex].answers[1];
   answerOp3.textContent = questionsKey[questionIndex].answers[2];
@@ -128,19 +122,14 @@ function showQuestion() {
 
 var answerFeedback = document.getElementById("answerFeedback");
 
-// add event listener to checkAnswer when button is clicked
-// TODO: change it to when the individual button answer is clicked
-
 var ansBtn = document.querySelectorAll(".answer-options");
-// answersEl.addEventListener("click", checkAnswer);
 
-ansBtn.forEach((choice) => {
-  choice.addEventListener("click", checkAnswer);
+// For each answer button pressed, it checks if it is the correct
+ansBtn.forEach((answer) => {
+  answer.addEventListener("click", checkAnswer);
 });
 
-// Checks whether answer is correct or incorrect
-// TODO: fix validation for when answer is correct
-
+// Checks whether answer is correct
 function checkAnswer(event) {
   event.preventDefault();
 
@@ -155,9 +144,11 @@ function checkAnswer(event) {
 
   console.log(questionsKey[questionIndex].correctAnswer);
   console.log(event.target.textContent);
-  // console.log(answer);
 
   // Checks if all questions are already asked. If so, game ends If not, continue displaying the next question
+
+  //TODO: how do i stop timer when all questions are asked
+
   if (questionIndex + 1 === questionsKey.length) {
     endGame();
   } else {
