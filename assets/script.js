@@ -10,10 +10,10 @@ const questionsKey = [
   {
     question: "What does HTML stand for?",
     answers: [
-      "1. High Text Markup Language",
-      "2. Happy Time Markup Language",
+      "1. HighText Markup Language",
+      "2. HighTech Markup Language",
       "3. HyperText Markup Language",
-      "4. Help Text Markup Language",
+      "4. HelpText Markup Language",
     ],
     correctAnswer: "3. HyperText Markup Language",
   },
@@ -23,7 +23,7 @@ const questionsKey = [
     correctAnswer: "1. Boolean",
   },
   {
-    question: "How can you print to the console?",
+    question: "How do you print to the console?",
     answers: [
       "1. log.console",
       "2. console.log",
@@ -38,7 +38,7 @@ const questionsKey = [
     correctAnswer: "4. make",
   },
   {
-    question: "Strings must be enclosed by what when assigning variables?",
+    question: "What must strings be enclosed by when assigning variables?",
     answers: [
       "1. exclamation marks",
       "2. quotes",
