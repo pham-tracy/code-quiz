@@ -22,8 +22,8 @@ p {
 
 
 
-#clearScores,
-#goBack,
+#clearScoresBtn,
+#goBackBtn,
 #startBtn,
 #add-initials
 {
@@ -94,7 +94,7 @@ li {
     font-size: 20px;
 }
 
-#highscores_btn
+#highscoresBtn
 {
     background-color: white;
     border: none;
@@ -110,8 +110,8 @@ button:hover {
 }
 
 #add-initials:hover , #startBtn:hover, 
-#clearScores:hover,
-#goBack:hover{
+#clearScoresBtn:hover,
+#goBackBtn:hover{
     background-color:blueviolet;
     cursor: pointer;
 }
@@ -121,6 +121,6 @@ button:hover {
     font-size:20px;
 }
 
-#scorerecord {
+#scoreList {
     font-size:25px
 }

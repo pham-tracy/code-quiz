@@ -49,16 +49,11 @@ const questionsKey = [
   },
 ];
 
-// Console.log information
-console.log(questionsKey);
-console.log(questionsKey.answers);
-console.log(questionsKey.correctAnswer);
-
 // Variables for the different divs
 var startPage = document.getElementById("startPage");
-var questionsPage = document.getElementById("Questions");
-var highScores = document.getElementById("high-scores");
-var addScoreEl = document.getElementById("AddScore");
+var questionsPage = document.getElementById("questions");
+var highScores = document.getElementById("highScores");
+var addScoreEl = document.getElementById("addScore");
 
 // Start page with welcome information. Quiz elements are hidden
 questionsPage.style.display = "none";
@@ -176,7 +171,7 @@ function viewHighScores() {
   addScores();
 }
 
-var goBackBtn = document.getElementById("goBack");
+var goBackBtn = document.getElementById("goBackBtn");
 
 // When go back button is pressed, it goes back to the start page.
 goBackBtn.addEventListener("click", function (event) {
@@ -188,7 +183,7 @@ goBackBtn.addEventListener("click", function (event) {
   location.reload();
 });
 
-var clearScoresBtn = document.getElementById("clearScores");
+var clearScoresBtn = document.getElementById("clearScoresBtn");
 
 // Clears high scores when Clear High Scores button is pressed
 clearScoresBtn.addEventListener("click", function () {
@@ -196,10 +191,10 @@ clearScoresBtn.addEventListener("click", function () {
   localStorage.clear();
 });
 
-var highscoresPageBtn = document.querySelector("#highscores_btn");
+var highscoresPageBtn = document.querySelector("#highscoresBtn");
 highscoresPageBtn.addEventListener("click", viewHighScores);
 
-var Scores = document.querySelector("#scorerecord");
+var Scores = document.querySelector("#scoreList");
 var userInitials = document.querySelector("#initials");
 var addInitials = document.querySelector("#add-initials");
 

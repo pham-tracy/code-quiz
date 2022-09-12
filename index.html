@@ -14,8 +14,8 @@
     <!-- Header that displays View Scores button and a timer -->
     <header id="gameInfo">
       <ul id="header">
-        <div href="#high-scores">
-          <button id="highscores_btn">View High Scores</button>
+        <div href="#highScores">
+          <button id="highscoresBtn">View High Scores</button>
         </div>
         <li id="timer">Time: 0</li> 
       </ul>
@@ -32,7 +32,7 @@
 </div>
 
 <!-- Questions -->
-    <div id="Questions">
+    <div id="questions">
         <h2 id="questionDisplay">Questions</h2>
 
         <div id="answers">
@@ -42,17 +42,19 @@
 
                <li><button type="button" id="op2" class="answer-options">OPTION 2</button></li>
 
-                <li> <button type="button" id="op3" class="answer-options">OPTION 3</button></li>
+                <li><button type="button" id="op3" class="answer-options">OPTION 3</button></li>
 
-                <li> <button type="button" id="op4" class="answer-options">OPTION 4</button> </li>
+                <li><button type="button" id="op4" class="answer-options">OPTION 4</button> </li>
               
            </ul> 
         </div>
+      
         <div id ="answerFeedback"></div>
+        
     </div>
 
 <!-- adds your score at end of quiz -->
-<div id="AddScore"> 
+<div id="addScore"> 
     <h2>All done!</h2>
     <p id="final-score"></p>
     <p>Add your score here by entering your initials</p>
@@ -65,17 +67,17 @@
 </div>
     
 <!-- displays high scores-->
-    <div id="high-scores">
+    <div id="highScores">
       <h2>High Scores</h2>
-      <div id="scorerecord">
+      <div id="scoreList">
 
       </div>
       <br>
       <br>
 
 
-<button type="button" id="goBack">Go back</button>
-<button type="button" id="clearScores">Clear high scores</button>
+<button type="button" id="goBackBtn">Go back</button>
+<button type="button" id="clearScoresBtn">Clear high scores</button>
     </div>
 
 </div>
