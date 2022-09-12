@@ -5,6 +5,9 @@ var answersEl = document.getElementById("answers");
 var questionIndex = 0;
 var shuffledQuestions;
 
+//when submit button to initials is clicked, run event function to log score into webpage local storage
+var scoreList = [];
+
 // Questions key with answer choices and correct answer
 const questionsKey = [
   {
@@ -152,9 +155,6 @@ function checkAnswer(event) {
 var scoreListEl = document.querySelector("#score-list");
 const addScore = document.forms["add-score"];
 
-//when submit button to initials is clicked, run event function to log score into webpage local storage
-scoreList = [];
-
 addScore.addEventListener("submit", submitScore);
 
 function submitScore(event) {
@@ -165,7 +165,6 @@ function submitScore(event) {
 
   // create variable to store user inputted initials
   var initials = addScore.querySelector("#initials").value;
-
   scoreList.push({ initials: initials, score: timeLeft });
 
   // sort scores
@@ -180,7 +179,7 @@ function submitScore(event) {
   scoreListEl.textContent = "";
 
   for (var i = 0; i < scoreList.length; i++) {
-    const li = document.createElement("li");
+    var li = document.createElement("li");
     li.textContent = `${scoreList[i].initials}: ${scoreList[i].score}`;
     scoreListEl.append(li);
   }
@@ -204,6 +203,7 @@ function showScores() {
   if (storedScoreList !== null) {
     scoreList = storedScoreList;
   }
+  console.log(storedScoreList);
 }
 
 // Ends the game and displays final score
