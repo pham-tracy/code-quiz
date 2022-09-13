@@ -14,7 +14,7 @@
 
 /* Heading sizes */
 h1, h2 {
-    font-size:50px;
+    font-size:30px;
 }
 
 /* Font size for all paragraphs and high scores list */
@@ -40,7 +40,7 @@ li {
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 350px;
+    margin-top: 50px; 
     text-align: center;
 }
 
