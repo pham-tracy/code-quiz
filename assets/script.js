@@ -184,7 +184,7 @@ function endQuiz() {
   finalScore.textContent = "Your final score is " + timeLeft;
 }
 
-// View High Scores
+// Views high scores
 function viewHighScores() {
   startPage.style.display = "none";
   questionsPage.style.display = "none";
