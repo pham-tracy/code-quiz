@@ -1,126 +1,109 @@
-#header {
-    display:flex;
-    justify-content: space-between;
-    flex-wrap: ;
-    margin: 20px;
-    list-style: none;
-}
-
-#codeContainer {
-    text-align: center;
-}
-
-h1, h2 {
-   
-    font-size:50px;
+/* Variables for repeating properties */
+:root {
+    --viewScoresBtn-btnHover-color: blueviolet;
+    --btn-timer-feedback-fontsize: 20px;
+    --btn-box-height: 60px;
+    --btn-box-border-radius: 15px;
 }
 
 
-p {
-    font-size:25px
-}
-
-
-
-#clearScoresBtn,
-#goBackBtn,
-#startBtn,
-#add-initials
-{
-    background-color: rebeccapurple;
-    color: white;
-    border-radius: 15px;
-    height: 60px;
-    width: 400px;
-    font-size: 20px;
-}
-
-.answer-options {
-    background-color: rebeccapurple;
-    color:white;
-    border-radius: 15px;
-    height: 60px;
-    width:400px;
-    margin: 20px;
-    font-size: 20px;
-    text-align: left;
-    padding-left: 30px;
-}
-
-
-/* form styles */
-
-   
-
-/*  Style to input box */
-#initials {
-    height: 60px;
-    width: 500px;
-    border-radius: 15px;
-    border-color:none;
-} 
-
-/* Style submit button */
-/* #add-initials {
-    background-color: rebeccapurple;
-    color:white;
-    height: 50px;
-    width:150px;
-    padding:0px;
-    border-radius:15px;
-
-} */
-
-li {
-    list-style-type: none;
-}
-
-
-#codeContainer {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: 
-    wrap;
-    margin-top: 350px;
-}
-
-
+/* Sets font-family for the whole document */
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#timer {
-    font-size: 20px;
+/* Heading sizes */
+h1, h2 {
+    font-size:50px;
 }
 
-#highscoresBtn
+/* Font size for all paragraphs and high scores list */
+p, #scoreList {
+    font-size:25px
+}
+
+/* No list-styles for list items */
+li {
+    list-style-type: none;
+}
+
+/* Makes header a flexbox */
+#header {
+    display:flex;
+    justify-content: space-between;
+    margin: 20px;
+    list-style: none;
+}
+
+/* Makes container holding the quiz elements a flexbox and centers them */
+#codeContainer {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 350px;
+    text-align: center;
+}
+
+/* General style properties for buttons */
+#clearScoresBtn,
+#goBackBtn,
+#startBtn,
+#add-initials, .answer-options
 {
-    background-color: white;
-    border: none;
-    height: 60px;
-    width: 200px;
-    font-size: 20px;
-    color:blueviolet;
+    background-color: rebeccapurple;
+    color: white;
+    border-radius: var(--btn-box-border-radius);
+    height: var(--btn-box-height);
+    width: 400px;
+    font-size: var(--btn-timer-feedback-fontsize);
 }
 
-button:hover {
-    background-color:blueviolet;
-    cursor:pointer;
-}
-
+/* Styling for when buttons are hovered over */
 #add-initials:hover , #startBtn:hover, 
 #clearScoresBtn:hover,
-#goBackBtn:hover{
-    background-color:blueviolet;
+#goBackBtn:hover, .answer-options:hover {
+    background-color: var(--viewScoresBtn-btnHover-color);
     cursor: pointer;
 }
 
-#answerFeedback {
-    color:gray;
-    font-size:20px;
+/* Alignment, margin and padding for the answer option buttons  */
+.answer-options {
+    margin: 20px;
+    text-align: left;
+    padding-left: 30px;
 }
 
-#scoreList {
-    font-size:25px
+/* High scores button in header */
+#highScoresBtn
+{
+    background-color: white;
+    border: none;
+    height: var(--btn-box-height);
+    width: 200px;
+    font-size: var(--btn-timer-feedback-fontsize);
+    color:var(--viewScoresBtn-btnHover-color);
+}
+
+/* Changes width of submit button */
+#add-initials {
+    width:150px;
+}
+
+/*  Sets style for input initials box */
+#initials {
+    height: var(--btn-box-height);
+    width: 500px;
+    border-radius: var(--btn-box-border-radius);
+    border-color:none;
+} 
+
+/* Font size of the timer */
+#timer {
+    font-size: var(--btn-timer-feedback-fontsize);
+}
+
+/* Color and size of "correct" and "wrong" messages */
+#answerFeedback {
+    color:gray;
+    font-size: var(--btn-timer-feedback-fontsize);
 }

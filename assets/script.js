@@ -1,9 +1,44 @@
+// Variable for timer element
 var timerEl = document.getElementById("timer");
+
+// Time at the start of the game
+var timeLeft = 75;
+
+// Variables for the different divs
+var startPage = document.getElementById("startPage");
+var questionsPage = document.getElementById("questions");
+var addScorePage = document.getElementById("addScore");
+var highScoresPage = document.getElementById("highScores");
 var askQuestion = document.getElementById("questionDisplay");
 var answersEl = document.getElementById("answers");
+var finalScore = document.getElementById("final-score");
 
+// Variables for adding scores when quiz ends
+var scores = document.querySelector("#scoreList");
+var userInitials = document.querySelector("#initials");
+var addInitials = document.querySelector("#add-initials");
+var scoreListEl = document.querySelector("#score-list");
+const addScore = document.forms["add-score"];
+
+// Variable to display whether question is correct or incorrect
+var answerFeedback = document.getElementById("answerFeedback");
+
+// Variables for displaying the questions
 var questionIndex = 0;
 var shuffledQuestions;
+
+// Variables for answer choice buttons
+var answerOp1 = document.getElementById("op1");
+var answerOp2 = document.getElementById("op2");
+var answerOp3 = document.getElementById("op3");
+var answerOp4 = document.getElementById("op4");
+
+// Variables for page buttons
+var highScoresBtn = document.querySelector("#highScoresBtn");
+var ansBtn = document.querySelectorAll(".answer-options");
+var goBackBtn = document.getElementById("goBackBtn");
+var startBtn = document.getElementById("startBtn");
+var clearScoresBtn = document.getElementById("clearScoresBtn");
 
 // Questions key with answer choices and correct answer
 const questionsKey = [
@@ -49,37 +84,50 @@ const questionsKey = [
   },
 ];
 
-// Variables for the different divs
-var startPage = document.getElementById("startPage");
-var questionsPage = document.getElementById("questions");
-var highScores = document.getElementById("highScores");
-var addScoreEl = document.getElementById("addScore");
-
-// Start page with welcome information. Quiz elements are hidden
+// Start page with quiz information
 questionsPage.style.display = "none";
-addScoreEl.style.display = "none";
-highScores.style.display = "none";
+addScorePage.style.display = "none";
+highScoresPage.style.display = "none";
 
-// Starts the quiz when Start button is clicked
-var startBtn = document.getElementById("startBtn");
+// Event Listeners
+// Starts quiz
 startBtn.addEventListener("click", startQuiz);
 
-// Buttons for answer choices
-var answerOp1 = document.getElementById("op1");
-var answerOp2 = document.getElementById("op2");
-var answerOp3 = document.getElementById("op3");
-var answerOp4 = document.getElementById("op4");
+// Views high scores
+highScoresBtn.addEventListener("click", viewHighScores);
+highScoresPage.addEventListener("click", viewHighScores);
 
-// Time remaining at start of the game
-var timeLeft = 75;
+// Goes back to the start page
+goBackBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  startPage.style.display = "block";
+  highScoresPage.style.display = "none";
+  questionsPage.style.display = "none";
+  addScorePage.style.display = "none";
+  location.reload();
+});
 
+// Clears high scores
+clearScoresBtn.addEventListener("click", function () {
+  localStorage.clear();
+});
+
+// Saves score information and displays the high scores page
+addInitials.addEventListener("click", function (event) {
+  event.preventDefault();
+  addScorePage.style.display = "none";
+  startPage.style.display = "none";
+  highScoresPage.style.display = "block";
+  questionsPage.style.display = "none";
+  saveScore();
+});
+
+// Starts the quiz
 function startQuiz() {
   // Randomizes questions
   shuffledQuestions = questionsKey.sort(() => Math.random() - 0.5);
-
   // Hides start page when game starts
   startPage.style.display = "none";
-
   // Displays questions page
   questionsPage.style.display = "block";
 
@@ -87,10 +135,8 @@ function startQuiz() {
   var timeInterval = setInterval(function () {
     timeLeft--;
     timerEl.textContent = "Time: " + timeLeft;
-
     // Stops the game if time left is less than or equal to 0, or if all questions have been answered
     if (timeLeft <= 0 || questionIndex === questionsKey.length) {
-      // if time left is less than 0, it will log the score as 0
       clearInterval(timeInterval);
       endQuiz();
       timerEl.textContent = "Time: " + timeLeft;
@@ -100,17 +146,14 @@ function startQuiz() {
   showQuestion();
 }
 
+// Displays question and answer choices
 function showQuestion() {
-  // Displays question and answer choices
   askQuestion.textContent = questionsKey[questionIndex].question;
   answerOp1.textContent = questionsKey[questionIndex].answers[0];
   answerOp2.textContent = questionsKey[questionIndex].answers[1];
   answerOp3.textContent = questionsKey[questionIndex].answers[2];
   answerOp4.textContent = questionsKey[questionIndex].answers[3];
 }
-
-var answerFeedback = document.getElementById("answerFeedback");
-var ansBtn = document.querySelectorAll(".answer-options");
 
 // For each answer button clicked, it checks if it is correct
 ansBtn.forEach((answer) => {
@@ -120,124 +163,66 @@ ansBtn.forEach((answer) => {
 // Checks whether answer is correct
 function checkAnswer(event) {
   event.preventDefault();
-
   // If correct, displays correct message
   if (questionsKey[questionIndex].correctAnswer == event.target.textContent) {
     answerFeedback.textContent = "Correct!";
   } else {
-    // if wrong, deduct 10 seconds from timer. Displays wrong message
+    // if incorrect, deducts 10 seconds from timer and displays wrong message
     timeLeft -= 10;
     answerFeedback.textContent = "Wrong!";
   }
-
-  console.log(questionsKey[questionIndex].correctAnswer);
-  console.log(event.target.textContent);
-
   // Goes to the next question
   questionIndex++;
   showQuestion();
-
-  console.log("Q Index:" + (questionIndex + 1));
-  console.log("Key length:" + questionsKey.length);
 }
 
-// list of list of  high scores when "View High Scores"
-
-// Ordered List of scores
-var scoreListEl = document.querySelector("#score-list");
-const addScore = document.forms["add-score"];
-
-// Ends the game and displays final score
+// Ends the game and displays the final score
 function endQuiz() {
-  addScoreEl.style.display = "block";
+  addScorePage.style.display = "block";
   highScores.style.display = "none";
   questionsPage.style.display = "none";
-
-  document.getElementById("final-score").textContent =
-    "Your final score is " + timeLeft;
+  finalScore.textContent = "Your final score is " + timeLeft;
 }
-
-highScores.addEventListener("click", viewHighScores);
 
 // View High Scores
 function viewHighScores() {
   startPage.style.display = "none";
-
   questionsPage.style.display = "none";
-
-  addScoreEl.style.display = "none";
-
-  highScores.style.display = "block";
+  addScorePage.style.display = "none";
+  highScoresPage.style.display = "block";
   addScores();
 }
 
-var goBackBtn = document.getElementById("goBackBtn");
-
-// When go back button is pressed, it goes back to the start page.
-goBackBtn.addEventListener("click", function (event) {
-  event.preventDefault();
-  startPage.style.display = "block";
-  highScores.style.display = "none";
-  questionsPage.style.display = "none";
-  addScoreEl.style.display = "none";
-  location.reload();
-});
-
-var clearScoresBtn = document.getElementById("clearScoresBtn");
-
-// Clears high scores when Clear High Scores button is pressed
-clearScoresBtn.addEventListener("click", function () {
-  // alert("is this working");
-  localStorage.clear();
-});
-
-var highscoresPageBtn = document.querySelector("#highscoresBtn");
-highscoresPageBtn.addEventListener("click", viewHighScores);
-
-var Scores = document.querySelector("#scoreList");
-var userInitials = document.querySelector("#initials");
-var addInitials = document.querySelector("#add-initials");
-
-// Saves score information and displays the high scores page
-addInitials.addEventListener("click", function (event) {
-  event.preventDefault();
-  addScoreEl.style.display = "none";
-  startPage.style.display = "none";
-  highScores.style.display = "block";
-  questionsPage.style.display = "none";
-  saveScore();
-});
-
-// get current score and initials from local storage
+// Retrieves score data from local storage
 function getScore() {
   var currentList = localStorage.getItem("ScoreList");
   if (currentList !== null) {
-    freshList = JSON.parse(currentList);
-    return freshList;
+    newList = JSON.parse(currentList);
+    return newList;
   } else {
-    freshList = [];
+    newList = [];
   }
-  return freshList;
+  return newList;
 }
 
-// add scores to the score board
+// Adds scores to the high scores list
 function addScores() {
-  Scores.innerHTML = "";
-  Scores.style.display = "block";
+  scores.innerHTML = "";
+  scores.style.display = "block";
   var highScores = sort();
-  //show the top five high scores.
-  var topFive = highScores.slice(0, 5);
-  for (var i = 0; i < topFive.length; i++) {
-    var item = topFive[i];
-    // Show the score list on score board
+  // Displays the top ten high scores
+  var topTen = highScores.slice(0, 10);
+  for (var i = 0; i < topTen.length; i++) {
+    var item = topTen[i];
+    // Creates list item for each score added and appends it to the high scores list
     var li = document.createElement("li");
     li.textContent = item.user + " - " + item.score;
     li.setAttribute("data-index", i);
-    Scores.appendChild(li);
+    scores.appendChild(li);
   }
 }
 
-// sort score and ranking the highscore list
+// Ranks high scores from highest to lowest
 function sort() {
   var unsortedList = getScore();
   if (getScore == null) {
@@ -250,13 +235,14 @@ function sort() {
   }
 }
 
-// push new score and initial to local storage
+// Adds high score to local storage
 function addItem(n) {
   var addedList = getScore();
   addedList.push(n);
   localStorage.setItem("ScoreList", JSON.stringify(addedList));
 }
 
+// Saves score
 function saveScore() {
   var scoreItem = {
     user: userInitials.value,

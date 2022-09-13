@@ -10,78 +10,63 @@
   </head>
 
   <body>
-
     <!-- Header that displays View Scores button and a timer -->
     <header id="gameInfo">
       <ul id="header">
         <div href="#highScores">
-          <button id="highscoresBtn">View High Scores</button>
+          <button id="highScoresBtn">View High Scores</button>
         </div>
         <li id="timer">Time: 0</li> 
       </ul>
     </header>
 
-<!-- Div to contain all the code pages -->
+    <!-- Div to contain all the code pages -->
     <div id="codeContainer">
-    <div id="startPage">
-      <h1>Code Quiz Challenge</h1>
-      <p>Test your JavaScript knowledge with a timed quiz! </p>
-      <p> You will have 75 seconds to answer 5 questions. For every incorrect answer, 10 seconds will be deducted. </p>
-      <p>Good luck and have fun!</p>
-      <button id="startBtn">Start Quiz</button>
-</div>
 
-<!-- Questions -->
-    <div id="questions">
+      <!-- Div for start page with instructions -->
+      <div id="startPage">
+        <h1>Code Quiz Challenge</h1>
+        <p>Test your JavaScript knowledge with a timed quiz! </p>
+        <p> You will have 75 seconds to answer 5 questions. For every incorrect answer, 10 seconds will be deducted. </p>
+        <p>Good luck and have fun!</p>
+        <button id="startBtn">Start Quiz</button>
+      </div>
+
+      <!-- Quiz questions -->
+      <div id="questions">
         <h2 id="questionDisplay">Questions</h2>
-
         <div id="answers">
             <ul>
-
                <li><button type="button" id="op1" class="answer-options">OPTION 1</button></li>
-
                <li><button type="button" id="op2" class="answer-options">OPTION 2</button></li>
-
                 <li><button type="button" id="op3" class="answer-options">OPTION 3</button></li>
-
                 <li><button type="button" id="op4" class="answer-options">OPTION 4</button> </li>
-              
            </ul> 
         </div>
-      
         <div id ="answerFeedback"></div>
-        
-    </div>
-
-<!-- adds your score at end of quiz -->
-<div id="addScore"> 
-    <h2>All done!</h2>
-    <p id="final-score"></p>
-    <p>Add your score here by entering your initials</p>
-      <form id="add-score">
-   
-        <input id="initials" type="text" placeholder="Initials"></input>
-        <button id="add-initials">Submit</button>
-
-      </form>
-</div>
-    
-<!-- displays high scores-->
-    <div id="highScores">
-      <h2>High Scores</h2>
-      <div id="scoreList">
-
       </div>
-      <br>
-      <br>
 
-
-<button type="button" id="goBackBtn">Go back</button>
-<button type="button" id="clearScoresBtn">Clear high scores</button>
+      <!-- Final page to add score at the end of the quiz -->
+      <div id="addScore"> 
+        <h2>All done!</h2>
+        <p id="final-score"></p>
+        <p>Add your score here by entering your initials</p>
+        <form id="add-score">
+          <input id="initials" type="text" placeholder="Initials"></input>
+          <button id="add-initials">Submit</button>
+        </form>
+      </div>
+    
+      <!-- High scores page -->
+      <div id="highScores">
+        <h2>High Scores</h2>
+        <div id="scoreList"></div>
+        <br>
+        <br>
+        <button type="button" id="goBackBtn">Go back</button>
+        <button type="button" id="clearScoresBtn">Clear high scores</button>
+      </div>
     </div>
-
-</div>
-
     <script src="./assets/script.js"></script>
   </body>
 </html>
